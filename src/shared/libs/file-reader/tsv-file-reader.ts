@@ -1,6 +1,6 @@
 import { FileReader } from './file-reader.interface.js';
 import { readFileSync } from 'node:fs';
-import {Offer, OfferType} from '../../types/index.js';
+import {Offer} from '../../types/index.js';
 
 export class TSVFileReader implements FileReader {
   private rawData = '';
@@ -25,7 +25,7 @@ export class TSVFileReader implements FileReader {
       .map(([id, title, type, price, previewImage, cityName, cityLatitude, cityLongitude, cityZoom, locationLatitude, locationLongitude, locationZoom, isFavorite, isPremium, rating]) => ({
         id,
         title,
-        type: OfferType[type as 'Buy' | 'Sell'],
+        type,
         price: Number.parseInt(price, 10),
         previewImage,
         city: {
@@ -43,7 +43,7 @@ export class TSVFileReader implements FileReader {
         },
         isFavorite: isFavorite === 'true',
         isPremium: isPremium === 'true',
-        rating: Number.parseInt(rating, 10),
+        rating: Number.parseFloat(rating),
       }));
   }
 }
